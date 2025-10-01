@@ -1,0 +1,63 @@
+syntax = "proto3";
+package live;
+
+option go_package = "github.com/autonomouskoi/trackstar-live";
+
+enum BusTopic {
+    TRACKSTAR_LIVE_EVENT   = 0;
+    TRACKSTAR_LIVE_REQUEST = 1;
+    TRACKSTAR_LIVE_COMMAND = 2;
+}
+
+message Token {
+              string  raw_token  = 1;
+              string  issuer     = 2;
+              string  subject    = 3;
+    repeated  string  audience   = 4;
+              int64   issued_at  = 5; 
+              int64   expires_at = 6;
+}
+
+enum MessageTypeEvent {
+    TRACK_SEND_EVENT = 0;
+}
+
+message TokenConfig {
+    Token  token   = 1;
+    bool   enabled = 2;
+}
+
+message Config {
+    map<string, TokenConfig>  tokens = 1;
+}
+
+enum MessageTypeRequest {
+    CONFIG_GET_REQ  = 0;
+    CONFIG_GET_RESP = 1;
+}
+
+message GetConfigRequest {}
+message GetConfigResponse {
+    Config  config = 1;
+}
+
+enum MessageTypeCommand {
+    CONFIG_SET_REQ  = 0;
+    CONFIG_SET_RESP = 1;
+    TOKEN_SET_REQ   = 2;
+    TOKEN_SET_RESP  = 3;
+}
+
+message SetConfigRequest {
+    Config  config = 1;
+}
+message SetConfigResponse {
+    Config  config = 1;
+}
+
+message TokenSetRequest {
+              string  label     = 1;
+              string  raw_token = 2;
+    optional  bool    enabled   = 3;
+}
+message TokenSetResponse {}
