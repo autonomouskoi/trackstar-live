@@ -63,8 +63,6 @@ func (p *Plugin) loadConfig() error {
 	p.cfg = &Config{
 		Tokens: map[string]*TokenConfig{},
 	}
-	core.LogError("DELETING CONFIG")
-	return nil
 	if err := core.KVGetProto(cfgKVKey, p.cfg); err != nil && !errors.Is(err, akcore.ErrNotFound) {
 		return fmt.Errorf("retrieving config: %w", err)
 	}
